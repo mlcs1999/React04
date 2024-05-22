@@ -44,9 +44,14 @@ function App() {
       const response = await axios.get('/productsData.json');
       console.log(response.data);
       console.log(response.data.products);
+      const productsArray: Product[] = response.data.products.map((product: any) => {
+          return new Product(product.id, product.title, product.description, product.amount);
+        });
+        console.log(productsArray);
+        setProducts(productsArray);
     }
     fetchData();
-  }, [])
+  }, products)
 
 
   function refreshCart() {
