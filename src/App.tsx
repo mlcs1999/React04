@@ -3,7 +3,7 @@ import { User } from './models/userModel';
 import NavBar  from './components/NavBar';
 import Products from './components/Products';
 import { Product } from './models/product';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Cart from './components/Cart';
 import {
   createBrowserRouter,
@@ -11,6 +11,8 @@ import {
   RouterProvider,
   Route
 } from "react-router-dom";
+
+import axios from 'axios';
 
 const products: Product[] = [
   new Product(1, "Product 1", "Description 1", 0),
@@ -35,6 +37,17 @@ function App() {
   
   const [cartNum, setCartNum] = useState(0);
   const [cartProducts, setCartProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      const response = await axios.get('/productsData.json');
+      console.log(response.data);
+      console.log(response.data.products);
+    }
+    fetchData();
+  }, [])
+
 
   function refreshCart() {
     const newProducts: Product[] = products.filter((prod) => prod.amount > 0);
