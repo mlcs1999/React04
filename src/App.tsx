@@ -51,7 +51,28 @@ function App() {
         setProducts(productsArray);
     }
     fetchData();
-  }, products)
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const options = {
+        method: 'GET',
+        url: 'https://fakestoreapi.com/products',
+      };
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      const productsArray: Product[] = response.data.map((product: any) => {
+          return new Product(product.id, product.title, product.description, product.price);
+        });
+        console.log(productsArray);
+        setProducts(productsArray);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+    fetchData();
+  }, []); 
 
 
   function refreshCart() {
@@ -90,7 +111,6 @@ function App() {
       </Route>
     ])
 );
-
 
   return (
     <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />

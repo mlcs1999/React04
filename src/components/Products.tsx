@@ -11,7 +11,7 @@ interface ProductsProps {
 const Products: React.FC<ProductsProps> = ({ products, onAdd }) => {
   return (
     <div className="all-products">
-        {products.map((product) => (
+        {products === null ? "No products" : products.map((product) => (
         <OneProduct
         key={product.id} 
         product={product}
